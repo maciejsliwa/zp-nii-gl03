@@ -1,3 +1,4 @@
+import math
 import sys
 import sympy
 from fastapi import FastAPI
@@ -16,8 +17,12 @@ async def say_hello(name: str):
 
 
 @app.get("/prime/{number}")
-async def is_prime_number(number: int):
-    return sympy.isprime(number)
+async def is_prime_number(number : str):
+    if number.isnumeric():
+        return sympy.isprime(number)
+    else:
+        return {'ej': 'wez sie'}
+
 
 
 @app.get("/numdiv/{number}")
