@@ -24,7 +24,6 @@ async def is_prime_number(number : str):
         return {'ej': 'wez sie'}
 
 
-
 @app.get("/numdiv/{number}")
 async def is_max(number: int):
     return sys.maxsize
