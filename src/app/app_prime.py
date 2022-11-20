@@ -1,4 +1,3 @@
-import math
 import sys
 import sympy
 from fastapi import FastAPI
@@ -20,10 +19,10 @@ async def say_hello(name: str):
 async def is_prime_number(number: str):
     ret = {'return': ''}
     if number.isnumeric():
-        ret['return'] = sympy.isprime(number)
+        ret['return'] = sympy.isprime(int(number))
     return ret
 
 
-@app.get("/numdiv/{number}")
-async def is_max(number: int):
+@app.get("/nummax")
+async def is_max():
     return sys.maxsize
