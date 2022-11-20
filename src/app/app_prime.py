@@ -18,10 +18,10 @@ async def say_hello(name: str):
 
 @app.get("/prime/{number}")
 async def is_prime_number(number : str):
+    ret = {'return': ''}
     if number.isnumeric():
-        return sympy.isprime(number)
-    else:
-        return {'ej': 'wez sie'}
+        ret['return'] = sympy.isprime(number)
+    return ret
 
 
 @app.get("/numdiv/{number}")
