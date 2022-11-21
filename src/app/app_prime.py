@@ -1,4 +1,4 @@
-import sys
+import os
 import sympy
 from fastapi import FastAPI
 
@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World", 'author': os.environ['MY_SECRET']}
 
 
 @app.get("/hello/{name}")
@@ -21,8 +21,3 @@ async def is_prime_number(number: str):
     if number.isnumeric():
         ret['return'] = sympy.isprime(int(number))
     return ret
-
-
-@app.get("/nummax")
-async def is_max():
-    return sys.maxsize
