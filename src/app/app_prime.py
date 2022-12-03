@@ -2,9 +2,11 @@ import http.client
 import json
 import os
 import sympy
-from fastapi import FastAPI, HTTPException, Depends
+import cv2
+from fastapi import FastAPI, HTTPException, Depends, UploadFile
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from datetime import datetime
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 with open('config.json', 'r') as f:
@@ -57,3 +59,14 @@ async def get_time(token: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
         raise HTTPException(status_code=401, detail="Token expired or invalid")
     else:
         return datetime.now().time()
+
+
+@app.post("/picture/invert")
+async def picture_inverting(file: UploadFile):
+    contents = await file.read()
+    with open(f"testfiles//{file.filename}", "wb") as f:
+        f.write(contents)
+    img = cv2.imread(f"testfiles//{file.filename}")
+    img_invert = cv2.bitwise_not(img)
+    cv2.imwrite(f"testfiles//inv_{file.filename}", img_invert)
+    return FileResponse(f"testfiles//inv_{file.filename}")
